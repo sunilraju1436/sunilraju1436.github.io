@@ -1,211 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sun</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sun - Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --sky: #8ecae6;
-      --cyan: #219ebc;
-      --dark: #023047;
-      --yellow: #ffb703;
-      --orange: #fb8500;
-      --text-light: #ffffff;
-      --text-dark: #000000;
-    }
+      body {
+        background: url("piclumen-1744280619044.png") no-repeat center center fixed;
+        background-size: cover;
+        color: #ffffff;
+        transition: all 0.3s ease-in-out;
+      }
 
-    [data-theme="light"] {
-      --bg: var(--sky);
-      --text: var(--dark);
-      --card-bg: #ffffff;
-    }
+      .dark-mode {
+        filter: invert(1) hue-rotate(180deg);
+      }
 
-    [data-theme="dark"] {
-      --bg: #1a1a1a;
-      --text: #f0f0f0;
-      --card-bg: #2a2a2a;
-    }
+      header {
+        text-align: center;
+        padding: 3rem 1rem 2rem;
+      }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    header {
-      background-color: var(--dark);
-      color: white;
-      padding: 1.5rem 1rem;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      animation: fadeInDown 1s ease-in-out;
-    }
-
-    header p {
-      animation: fadeInUp 1.5s ease-in-out;
-    }
-
-    section {
-      padding: 2rem 1rem;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    h2 {
-      color: var(--cyan);
-      margin-bottom: 1rem;
-      animation: fadeInLeft 0.5s ease-in-out;
-    }
-
-    .card {
-      background: var(--card-bg);
-      padding: 1rem;
-      border-left: 6px solid var(--orange);
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      animation: fadeIn 0.8s ease-in-out;
-    }
-
-    a.button {
-      display: inline-block;
-      background: var(--yellow);
-      color: var(--dark);
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      text-decoration: none;
-      margin-top: 1rem;
-      transition: background 0.3s;
-    }
-
-    a.button:hover {
-      background: var(--orange);
-    }
-
-    footer {
-      text-align: center;
-      background: var(--dark);
-      color: white;
-      padding: 1rem;
-    }
-
-    #theme-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--orange);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    #theme-toggle:hover {
-      background: var(--cyan);
-    }
-
-    @media (max-width: 600px) {
       header h1 {
-        font-size: 1.8rem;
+        font-size: 3rem;
+        color: #00fff7;
+        animation: fadeInDown 1s ease forwards;
       }
 
-      .card {
-        font-size: 0.95rem;
+      header p {
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+        color: #ffffffcc;
       }
-    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      section {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
 
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #ff00ff;
+        animation: fadeInUp 1s ease forwards;
+      }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      ul {
+        list-style: none;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #ffffff;
+      }
 
-    @keyframes fadeInLeft {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-  </style>
-</head>
+      a {
+        color: #8ecae6;
+        text-decoration: none;
+      }
 
-<body data-theme="light">
-  <header>
-    <h1>Hi, I'm Sun 👋</h1>
-    <p>I love building apps and simple web experiences. Welcome to my digital space!</p>
-  </header>
+      a:hover {
+        text-decoration: underline;
+      }
 
-  <section id="about">
-    <h2>About Me</h2>
-    <div class="card">
-      <p>I’m passionate about creating meaningful digital experiences. I enjoy working on web projects and mobile apps and learning new tech every day.</p>
-    </div>
-  </section>
+      .toggle-mode {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 0.6rem 1rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
 
-  <section id="apps">
-    <h2>My Apps</h2>
-    <div class="card">
-      <p>Coming soon... 🚀</p>
-    </div>
-  </section>
+      .toggle-mode:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+      }
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="card">
-      <p>More exciting stuff coming soon... 🔧</p>
-    </div>
-  </section>
+      @keyframes fadeInDown {
+        from {
+          transform: translateY(-30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
 
-  <section id="github">
-    <h2>GitHub</h2>
-    <div class="card">
-      <p>Check out my work and projects on GitHub.</p>
-      <a class="button" href="https://github.com/sunilraju1436" target="_blank">Visit My GitHub</a>
-    </div>
-  </section>
+      @keyframes fadeInUp {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
 
-  <footer>
-    <p>&copy; 2025 Sun. All rights reserved.</p>
-  </footer>
+      @media (max-width: 600px) {
+        header h1 {
+          font-size: 2rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Sun</h1>
+      <p>Welcome to my space on the web!</p>
+    </header>
 
-  <button id="theme-toggle" title="Toggle Theme">🌗</button>
+    <section>
+      <h2>Apps</h2>
+      <ul>
+        <li>App 1 (coming soon)</li>
+        <li>App 2 (coming soon)</li>
+      </ul>
+    </section>
 
-  <script>
-    const toggleBtn = document.getElementById('theme-toggle');
-    toggleBtn.addEventListener('click', () => {
-      const currentTheme = document.body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      document.body.setAttribute('data-theme', newTheme);
-    });
-  </script>
-</body>
+    <section>
+      <h2>Projects</h2>
+      <ul>
+        <li>Project 1 (coming soon)</li>
+        <li>Project 2 (coming soon)</li>
+      </ul>
+    </section>
 
+    <section>
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="https://github.com/sunilraju1436" target="_blank">GitHub</a></li>
+      </ul>
+    </section>
+
+    <button class="toggle-mode" onclick="toggleDarkMode()">🌗 Toggle Mode</button>
+
+    <script>
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+      }
+    </script>
+  </body>
 </html>
+
 
 
