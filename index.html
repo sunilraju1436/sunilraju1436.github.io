@@ -1,137 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sunil's Portfolio Showcase</title>
-  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Sunil's Apps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Roboto&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
+      font-family: 'Roboto', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-family: 'Gloria Hallelujah', cursive;
+      margin-bottom: 40px;
+    }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #007acc;
+    }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .hero-text {
+      max-width: 50%;
+      font-family: 'Gloria Hallelujah', cursive;
+    }
+    .hero-text h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .buttons button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .buttons button:hover {
+      background-color: #005fa3;
+      transform: scale(1.05);
+    }
+    .hero-image {
+      max-width: 45%;
+    }
+    .hero-image img {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      animation: slideInRight 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes slideInRight {
+      from {opacity: 0; transform: translateX(100px);}
+      to {opacity: 1; transform: translateX(0);}
     }
   </style>
 </head>
+<body>
+  <header>
+    <h1>Sunil's Apps</h1>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#connect">Connect</a>
+      <a href="#news">News</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-<body class="bg-white text-black">
-  <!-- Navbar -->
-  <nav class="flex justify-between items-center px-6 py-4 border-b">
-    <h1 class="text-xl font-bold">Sunil's Apps</h1>
-    <ul class="flex gap-6">
-      <li>Projects</li>
-      <li>Connect</li>
-      <li>News</li>
-      <li>About</li>
-      <li>🔍</li>
-    </ul>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="flex flex-col md:flex-row items-center justify-between px-10 py-14 gap-6">
-    <div class="max-w-md">
-      <h2 class="text-5xl font-bold leading-tight">PORTFOLIO <br /> SHOWCASE</h2>
-      <p class="mt-4">Explore Sunil's latest projects and creations</p>
-      <div class="flex items-center gap-4 mt-6">
-        <button class="border px-4 py-2">View</button>
-        <button class="border px-4 py-2">Discover</button>
-        <span class="text-sm">5 min read</span>
-      </div>
-      <button class="mt-4 border px-6 py-2">Explore</button>
-    </div>
-    <div class="w-full md:w-1/2 aspect-[4/3] border border-dashed rounded-full"></div>
-  </section>
-
-  <!-- Latest Updates -->
-  <section class="px-10 py-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div>
-      <h3 class="text-2xl mb-2">Latest Updates</h3>
-      <div class="border p-4">
-        <div class="aspect-[4/3] border border-dashed"></div>
-        <button class="mt-4 border px-4 py-1">Check out</button>
-        <p class="text-sm mt-2">5 min read</p>
-        <p class="mt-2">⭕ Professional Growth<br>April 5, 2022</p>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>PORTFOLIO SHOWCASE</h1>
+      <p>Explore Sunil's latest projects and creations</p>
+      <div class="buttons">
+        <button onclick="alert('View clicked!')">View</button>
+        <button onclick="alert('Discover clicked!')">Discover</button>
+        <button onclick="alert('Explore clicked!')">Explore</button>
       </div>
     </div>
-    <div class="flex flex-col gap-4">
-      <div class="flex border p-4 gap-4 items-center">
-        <div class="w-20 h-20 border border-dashed"></div>
-        <div>
-          <h4>Artistic Creations</h4>
-          <p>🖌️ Creative Mind - Mar 30, 2022</p>
-          <p>⏱️ 2 min read</p>
-        </div>
-      </div>
-      <div class="flex border p-4 gap-4 items-center">
-        <div class="w-20 h-20 border border-dashed"></div>
-        <div>
-          <h4>Networking Success Stories</h4>
-          <p>🤝 Team Player - Apr 1, 2022</p>
-          <p>⏱️ 1 min read</p>
-        </div>
-      </div>
-      <div class="flex border p-4 gap-4 items-center">
-        <div class="w-20 h-20 border border-dashed"></div>
-        <div>
-          <h4>Tech Trends and Innovations</h4>
-          <p>📈 Recognition Achieved - Mar 28, 2022</p>
-          <p>⏱️ 4 min read</p>
-        </div>
-      </div>
+    <div class="hero-image">
+      <img src="/mnt/data/Discover.png" alt="Portfolio Showcase Image" />
     </div>
   </section>
-
-  <!-- Portfolio Vision Icons -->
-  <section class="px-10 py-10">
-    <h3 class="text-3xl mb-4">Vision PORTFOLIO</h3>
-    <div class="grid grid-cols-2 md:grid-cols-7 gap-6 text-center">
-      <div>🎨<br>Apps</div>
-      <div>📲<br>Projects</div>
-      <div>🌐<br>Connect</div>
-      <div>📰<br>News</div>
-      <div>💡<br>Designs</div>
-      <div>📊<br>Innovations</div>
-      <div>🔔<br>Updates</div>
-    </div>
-  </section>
-
-  <!-- Experience Section -->
-  <section class="px-10 py-10">
-    <h3 class="text-3xl mb-4">Sunil's Experience</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      <div class="border p-4 text-sm">Creative App Designs<br>with interactive features</div>
-      <div class="border p-4 text-sm">Innovative Project<br>Bringing ideas to life</div>
-      <div class="border p-4 text-sm">Stay Connected with<br>meaningful conversations</div>
-      <div class="border p-4 text-sm">Latest industry news<br>and breakthroughs</div>
-      <div class="border p-4 text-sm">Artistic Creations<br>explore Sunil's designs</div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <footer class="px-10 py-10 border-t">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div>
-        <h4 class="text-xl mb-2">Get in Touch</h4>
-        <p>Explore Sunil's World of Creativity</p>
-      </div>
-      <div>
-        <h4 class="text-xl mb-2">Navigation</h4>
-        <ul>
-          <li>Home</li>
-          <li>Projects</li>
-          <li>Connect</li>
-          <li>News</li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-xl mb-2">Reach out for Collaborations</h4>
-        <form class="flex gap-2">
-          <input type="text" placeholder="Your message" class="border px-4 py-2 w-full" />
-          <button class="border px-4 py-2">Send</button>
-        </form>
-      </div>
-    </div>
-  </footer>
 </body>
-
 </html>
+
