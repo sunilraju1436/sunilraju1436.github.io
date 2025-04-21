@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sun Store - A Unique Games Store</title>
+    <style>
+        :root {
+            --primary-color: #ff9500;
+            --secondary-color: #ffcc00;
+            --dark-color: #333;
+            --light-color: #f8f8f8;
+            --accent-color: #ff5722;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .search-bar {
+            background-color: white;
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+        }
+        
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            padding-left: 10px;
+        }
+        
+        main {
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .categories {
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0.5rem 0;
+            scrollbar-width: none;
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-item {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            margin-right: 0.5rem;
+            background-color: white;
+            border-radius: 25px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .game-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .game-info {
+            padding: 0.8rem;
+        }
+        
+        .game-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+        
+        .game-developer {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .rating svg {
+            color: gold;
+            margin-right: 0.2rem;
+        }
+        
+        .download-btn {
+            display: block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 0.8rem 0;
+            border-radius: 12px 12px 0 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        
+        .tab.active {
+            color: var(--primary-color);
+        }
+        
+        .tab svg {
+            margin-bottom: 0.2rem;
+            font-size: 1.2rem;
+        }
+        
+        .game-details {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--light-color);
+            z-index: 200;
+            overflow-y: auto;
+            padding-bottom: 5rem;
+        }
+        
+        .details-header {
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .details-hero {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .details-content {
+            padding: 1.5rem;
+            margin-top: -2rem;
+            background-color: white;
+            border-radius: 25px 25px 0 0;
+            position: relative;
+        }
+        
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            margin-top: -40px;
+            border: 3px solid white;
+            background-color: #eee;
+        }
+        
+        .details-title {
+            font-size: 1.5rem;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        .game-stats {
+            display: flex;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .game-stat {
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .game-stat svg {
+            margin-right: 0.3rem;
+        }
+        
+        .download-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .price {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .download-details-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .screenshots {
+            margin-bottom: 1.5rem;
+        }
+        
+        .screenshots-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            scrollbar-width: none;
+        }
+        
+        .screenshots-grid::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .screenshot {
+            width: 200px;
+            height: 350px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Store Page -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                Sun Store
+            </div>
+        </div>
+    </header>
+    
+    <div class="search-bar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" placeholder="Search games...">
+    </div>
+    
+    <main>
+        <div class="hero">
+            <h1>Sun Store</h1>
+            <p>A unique games store - dive to thrill</p>
+        </div>
+        
+        <div class="categories">
+            <div class="category-item active">All</div>
+            <div class="category-item">Action</div>
+            <div class="category-item">Adventure</div>
+            <div class="category-item">Puzzle</div>
+            <div class="category-item">Racing</div>
+            <div class="category-item">RPG</div>
+            <div class="category-item">Simulation</div>
+            <div class="category-item">Sports</div>
+            <div class="category-item">Strategy</div>
+        </div>
+        
+        <div class="section-title">
+            <h2>Featured Games</h2>
+            <a href="#" class="view-all">View All</a>
+        </div>
+        
+        <div class="game-grid">
+            <div class="game-card" onclick="showGameDetails()">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Solar Racer</h3>
+                    <p class="game-developer">Sun Games</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.8 (2.5k)
+                    </div>
+                    <a href="#" class="download-btn" onclick="event.stopPropagation(); window.location.href='https://play.google.com'">Download</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Neon Drift</h3>
+                    <p class="game-developer">Bright Studios</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.5 (1.8k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Puzzle Quest</h3>
+                    <p class="game-developer">Mind Games</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.7 (3.2k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Space Wars</h3>
+                    <p class="game-developer">Cosmic Dev</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.6 (5.1k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <h2>Popular Games</h2>
+            <a href="#" class="view-all">View All</a>
+        </div>
+        
+        <div class="game-grid">
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Forest Adventure</h3>
+                    <p class="game-developer">Nature Games</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.9 (10.2k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">City Builder</h3>
+                    <p class="game-developer">Urban Studios</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.7 (8.5k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Battle Arena</h3>
+                    <p class="game-developer">Epic Games</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.8 (15.3k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <img src="/api/placeholder/200/120" alt="Game" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Speed Racing</h3>
+                    <p class="game-developer">Fast Lane</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="gold" stroke="gold" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        4.6 (7.8k)
+                    </div>
+                    <a href="https://play.google.com" class="download-btn">Download</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Bottom navigation -->
+    <div class="nav-tabs">
+        <a href="#" class="tab active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Home
+        </a>
+        <a href="#" class="tab">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            Explore
+        </a>
+        <a href="#" class="tab">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Library
+        </a>
+        <a href="#" class="tab">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Profile
+        </a>
+    </div>
+    
+    <!-- Game Details Page (initially hidden) -->
+    <div class="game-details" id="gameDetails">
+        <div class="details-header">
+            <div class="back-btn" onclick="hideGameDetails()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+            </div>
+            <div class="details-hero" style="background-image: url('/api/placeholder/800/400')"></div>
+        </div>
+        
+        <div class="details-content">
+            <img src="/api/placeholder/80/80" alt="Game Icon" class="game-icon">
+            <h1 class="details-title">Solar Racer</h1>
+            <p class="game-developer">Sun Games • Racing</p>
+            
+            <div class="game-stats">
+                <div class="game-stat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    4.8
+                </div>
+                <div class="game-stat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    2.5M+
+                </div>
+                <div class="game-stat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    50MB
+                </div>
+            </div>
+            
+            <div class="download-details">
+                <div class="price">FREE</div>
+                <a href="https://play.google.com" class="download-details-btn">Download</a>
+            </div>
+            
+            <div class="description">
+                <h3>Description</h3>
+                <p>Solar Racer is an exhilarating racing game set in a futuristic solar system. Race through the rings of Saturn, dive into Jupiter's storms, and speed across the surface of Mars. With stunning graphics, intuitive controls, and exciting multiplayer mode, this game will keep you on the edge of your seat.</p>
+            </div>
+            
+            <div class="screenshots">
+                <h3>Screenshots</h3>
+                <div class="screenshots-grid">
+                    <img src="/api/placeholder/200/350" alt="Screenshot" class="screenshot">
+                    <img src="/api/placeholder/200/350" alt="Screenshot" class="screenshot">
+                    <img src="/api/placeholder/200/350" alt="Screenshot" class="screenshot">
+                    <img src="/api/placeholder/200/350" alt="Screenshot" class="screenshot">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showGameDetails() {
+            document.getElementById('gameDetails').style.display = 'block';
+        }
+        
+        function hideGameDetails() {
+            document.getElementById('gameDetails').style.display = 'none';
+        }
+        
+        // Category switching
+        const categories = document.querySelectorAll('.category-item');
+        categories.forEach(category => {
+            category.addEventListener('click', () => {
+                categories.forEach(c => c.classList.remove('active'));
+                category.classList.add('active');
+            });
+        });
+    </script>
+</body
