@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFlix - Watch TV Shows Online, Watch Movies Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://assets.nflxext.com/ffe/siteui/vlv3/9d3533b2-0e2b-40b2-95e0-ecd7979cc88b/a3873901-5b7c-46eb-b9fa-12fea5197bd3/IN-en-20240311-popsignuptwoweeks-perspective_alpha_website_large.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+        }
+        
+        .movie-card:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .movie-row {
+            scrollbar-width: none;
+        }
+        
+        .movie-row::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .navbar {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+            transition: background-color 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background-color: #000;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Navigation -->
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 px-12 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <h1 class="text-red-600 font-bold text-4xl mr-10">MOVIEFLIX <br> by Sun.dev</h1>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-gray-300">Home</a>
+                <a href="#" class="hover:text-gray-300">TV Shows</a>
+                <a href="#" class="hover:text-gray-300">Movies</a>
+                <a href="#" class="hover:text-gray-300">New & Popular</a>
+                <a href="#" class="hover:text-gray-300">My List</a>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+            <div class="relative hidden md:block">
+                <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                <input type="text" placeholder="Search" class="bg-black bg-opacity-50 border border-gray-600 rounded px-4 py-1 pl-10 text-white focus:outline-none">
+            </div>
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-bell text-xl hover:text-gray-300 cursor-pointer"></i>
+                <div class="flex items-center space-x-2 cursor-pointer">
+                    <div class="w-8 h-8 rounded bg-blue-500 flex items-center justify-center">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <i class="fas fa-caret-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center px-12 pt-16">
+        <div class="max-w-2xl">
+            <h1 class="text-5xl font-bold mb-4">Stranger Things</h1>
+            <p class="text-xl mb-6">When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.</p>
+            <div class="flex space-x-4">
+                <button class="bg-white text-black px-6 py-2 rounded flex items-center hover:bg-opacity-80">
+                    <i class="fas fa-play mr-2"></i> Play
+                </button>
+                <button class="bg-gray-600 bg-opacity-70 text-white px-6 py-2 rounded flex items-center hover:bg-opacity-50">
+                    <i class="fas fa-info-circle mr-2"></i> More Info
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Sections -->
+    <div class="px-12 py-8 space-y-8">
+        <!-- Popular on MovieFlix -->
+        <section>
+            <h2 class="text-xl font-bold mb-4">Popular on MovieFlix</h2>
+            <div class="movie-row flex space-x-4 overflow-x-auto pb-4">
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/1LRLLWGt5zy4XcL4U5fL2kKi3mB.jpg" alt="The Witcher" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">The Witcher</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">94% Match</span>
+                                <span class="text-xs">2 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Fantasy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/8Vt6mWRCeMCUPQF660KiDfqUU1i.jpg" alt="Money Heist" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Money Heist</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">97% Match</span>
+                                <span class="text-xs">5 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Thriller</span>
+                                <span class="text-xs">Crime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6fV0vUOZEXdXmMhQKOKJ3L8iK0p.jpg" alt="Peaky Blinders" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Peaky Blinders</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">98% Match</span>
+                                <span class="text-xs">6 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6kbAMLteGO8yyewYau6bJ683sw7.jpg" alt="Breaking Bad" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Breaking Bad</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">99% Match</span>
+                                <span class="text-xs">5 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6UH52Fmau8RPsMAbQbjwN3wJSCj.jpg" alt="Squid Game" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Squid Game</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">95% Match</span>
+                                <span class="text-xs">1 Season</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Thriller</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6fV0vUOZEXdXmMhQKOKJ3L8iK0p.jpg" alt="Peaky Blinders" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Peaky Blinders</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">98% Match</span>
+                                <span class="text-xs">6 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Continue Watching -->
+        <section>
+            <h2 class="text-xl font-bold mb-4">Continue Watching</h2>
+            <div class="movie-row flex space-x-4 overflow-x-auto pb-4">
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/1L7MpA2QZJvFVL49W7aH1IMTGhL.jpg" alt="The Queen's Gambit" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-red-600" style="width: 65%"></div>
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">The Queen's Gambit</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">96% Match</span>
+                                <span class="text-xs">1 Season</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6UH52Fmau8RPsMAbQbjwN3wJSCj.jpg" alt="Squid Game" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-red-600" style="width: 40%"></div>
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Squid Game</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">95% Match</span>
+                                <span class="text-xs">1 Season</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Thriller</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6kbAMLteGO8yyewYau6bJ683sw7.jpg" alt="Breaking Bad" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-red-600" style="width: 80%"></div>
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Breaking Bad</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">99% Match</span>
+                                <span class="text-xs">5 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/8Vt6mWRCeMCUPQF660KiDfqUU1i.jpg" alt="Money Heist" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-red-600" style="width: 30%"></div>
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Money Heist</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">97% Match</span>
+                                <span class="text-xs">5 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Thriller</span>
+                                <span class="text-xs">Crime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/1LRLLWGt5zy4XcL4U5fL2kKi3mB.jpg" alt="The Witcher" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-red-600" style="width: 55%"></div>
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">The Witcher</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">94% Match</span>
+                                <span class="text-xs">2 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Fantasy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Now -->
+        <section>
+            <h2 class="text-xl font-bold mb-4">Trending Now</h2>
+            <div class="movie-row flex space-x-4 overflow-x-auto pb-4">
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" alt="Spider-Man: No Way Home" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Spider-Man: No Way Home</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">98% Match</span>
+                                <span class="text-xs">2021</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Action</span>
+                                <span class="text-xs">Adventure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/9dKCd55IuTT5QRs989m9Qlb7d2B.jpg" alt="The Batman" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">The Batman</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">96% Match</span>
+                                <span class="text-xs">2022</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Action</span>
+                                <span class="text-xs">Crime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg" alt="Shang-Chi" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Shang-Chi</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">95% Match</span>
+                                <span class="text-xs">2021</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Action</span>
+                                <span class="text-xs">Adventure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg" alt="Dune" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Dune</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">97% Match</span>
+                                <span class="text-xs">2021</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Sci-Fi</span>
+                                <span class="text-xs">Adventure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6XYLiMxHAaCsoyrVo38LBWMw2p8.jpg" alt="No Time To Die" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">No Time To Die</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">94% Match</span>
+                                <span class="text-xs">2021</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Action</span>
+                                <span class="text-xs">Thriller</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My List -->
+        <section>
+            <h2 class="text-xl font-bold mb-4">My List</h2>
+            <div class="movie-row flex space-x-4 overflow-x-auto pb-4">
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/34nDCQZwaEvsy4CFO5hkGRFDCVU.jpg" alt="The Mandalorian" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">The Mandalorian</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">96% Match</span>
+                                <span class="text-xs">2 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Sci-Fi</span>
+                                <span class="text-xs">Action</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6UH52Fmau8RPsMAbQbjwN3wJSCj.jpg" alt="Squid Game" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Squid Game</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">95% Match</span>
+                                <span class="text-xs">1 Season</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Thriller</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/6kbAMLteGO8yyewYau6bJ683sw7.jpg" alt="Breaking Bad" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Breaking Bad</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">99% Match</span>
+                                <span class="text-xs">5 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/8Vt6mWRCeMCUPQF660KiDfqUU1i.jpg" alt="Money Heist" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">Money Heist</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">97% Match</span>
+                                <span class="text-xs">5 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Thriller</span>
+                                <span class="text-xs">Crime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card flex-shrink-0 w-48 h-72 bg-gray-800 rounded overflow-hidden transition duration-300 relative">
+                    <img src="https://image.tmdb.org/t/p/w500/1LRLLWGt5zy4XcL4U5fL2kKi3mB.jpg" alt="The Witcher" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                        <div class="text-center p-4">
+                            <h3 class="font-bold mb-2">The Witcher</h3>
+                            <div class="flex justify-center space-x-2">
+                                <span class="text-xs">94% Match</span>
+                                <span class="text-xs">2 Seasons</span>
+                            </div>
+                            <div class="flex justify-center mt-2 space-x-2">
+                                <span class="text-xs">Violent</span>
+                                <span class="text-xs">Fantasy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-gray-500 py-8 px-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-white mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">About Us</a></li>
+                    <li><a href="#" class="hover:text-white">Jobs</a></li>
+                    <li><a href="#" class="hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white mb-4">Help</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">FAQ</a></li>
+                    <li><a href="#" class="hover:text-white">Account</a></li>
+                    <li><a href="#" class="hover:text-white">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white">Cookie Preferences</a></li>
+                    <li><a href="#" class="hover:text-white">Corporate Information</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white mb-4">Connect</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-800">
+            <p>© 2023 MovieFlix. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Movie card hover effect
+        document.querySelectorAll('.movie-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.zIndex = '1';
+            });
+        });
+    </script>
+</body>
+</html>
