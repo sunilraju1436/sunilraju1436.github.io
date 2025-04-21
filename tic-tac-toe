@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 3em;
+      color: #00c3ff;
+      text-shadow: 1px 1px 5px #000;
+    }
+    .tic-tac-toe {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-gap: 10px;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 80px;
+      height: 80px;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 80px;
+      background: #ffffff22;
+      border: 2px solid #00c3ff;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .cell:hover {
+      background: #00c3ff44;
+      transform: scale(1.05);
+    }
+    button {
+      padding: 10px 20px;
+      background: #00c3ff;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #00a2cc;
+    }
+    #winner {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+      color: #00ffcc;
+    }
+    #scoreboard {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #fff;
+    }
+    #timer {
+      font-size: 1.5em;
+      margin-top: 20px;
+      color: #fff;
+    }
+    .dark-mode {
+      background: #121212;
+      color: #fff;
+    }
+    .light-mode {
+      background: #ffffff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="tic-tac-toe">
+    <h1>Tic-Tac-Toe</h1>
+    <div id="scoreboard">
+      X Wins: <span id="x-wins">0</span> | O Wins: <span id="o-wins">0</span>
+    </div>
+    <div id="timer">Time: <span id="time">00:00</span></div>
+    <div class="board" id="ttt-board"></div>
+    <p id="winner"></p>
+    <button onclick="restartTicTacToe()">Restart</button>
+    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    <button onclick="chooseSymbol()">Choose Symbol</button>
+  </div>
+
+  <script>
+    let currentPlayer = 'X';
+    let board = ["", "", "", "", "", "", "", "", ""];
+    let xWins = 0, oWins = 0;
+    let timerInterval;
+    let seconds = 0;
+
+    // Dark mode toggle
+    let isDarkMode = false;
+
+    // Score and timer functions
+    function updateScore() {
+      document.getElementById('x-wins').textContent = xWins;
+      document.getElementById('o-wins').textContent = oWins;
+    }
+
+    function updateTimer() {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      document.getElementById('time').textContent = `${minutes < 10 ? '0' + minutes : minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`;
+      seconds++;
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      seconds = 0;
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+    }
+
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-mode', isDarkMode);
+      document.body.classList.toggle('light-mode', !isDarkMode);
+    }
+
+    function chooseSymbol() {
+      const symbol = prompt('Choose your symbol: X or O');
+      if (symbol && (symbol.toUpperCase() === 'X' || symbol.toUpperCase() === 'O')) {
+        currentPlayer = symbol.toUpperCase();
+      } else {
+        alert('Invalid symbol! Please choose X or O.');
+      }
+    }
+
+    // Draw board
+    function drawBoard() {
+      const tttBoard = document.getElementById('ttt-board');
+      tttBoard.innerHTML = '';
+      board.forEach((val, index) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = val;
+        cell.onclick = () => makeMove(index);
+        tttBoard.appendChild(cell);
+      });
+    }
+
+    // Make move
+    function makeMove(index) {
+      if (board[index] === '' && !checkWinner()) {
+        board[index] = currentPlayer;
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        drawBoard();
+        const winner = checkWinner();
+        if (winner) {
+          document.getElementById('winner').textContent = `${winner} wins!`;
+          if (winner === 'X') xWins++;
+          if (winner === 'O') oWins++;
+          updateScore();
+          stopTimer();
+        } else if (!board.includes("")) {
+          document.getElementById('winner').textContent = 'Draw!';
+          stopTimer();
+        }
+      }
+    }
+
+    // Check winner
+    function checkWinner() {
+      const winPatterns = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      for (let pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+          highlightWinningLine(pattern);
+          return board[a];
+        }
+      }
+      return null;
+    }
+
+    // Highlight the winning line
+    function highlightWinningLine(pattern) {
+      pattern.forEach(index => {
+        const cell = document.getElementById('ttt-board').children[index];
+        cell.style.backgroundColor = '#ff6347';
+      });
+    }
+
+    // Restart the game
+    function restartTicTacToe() {
+      board = ["", "", "", "", "", "", "", "", ""];
+      currentPlayer = 'X';
+      document.getElementById('winner').textContent = '';
+      drawBoard();
+      startTimer();
+    }
+
+    // Initial setup
+    drawBoard();
+    startTimer();
+
+  </script>
+</body>
+</html>
