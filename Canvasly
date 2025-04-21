@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvasly - A Canva Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .canvas-container {
+            background-image: linear-gradient(45deg, #f5f5f5 25%, transparent 25%), 
+                              linear-gradient(-45deg, #f5f5f5 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #f5f5f5 75%), 
+                              linear-gradient(-45deg, transparent 75%, #f5f5f5 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        
+        .element-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .resize-handle {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border: 2px solid #3b82f6;
+            position: absolute;
+        }
+        
+        .resize-handle-nw {
+            top: -5px;
+            left: -5px;
+            cursor: nwse-resize;
+        }
+        
+        .resize-handle-ne {
+            top: -5px;
+            right: -5px;
+            cursor: nesw-resize;
+        }
+        
+        .resize-handle-sw {
+            bottom: -5px;
+            left: -5px;
+            cursor: nesw-resize;
+        }
+        
+        .resize-handle-se {
+            bottom: -5px;
+            right: -5px;
+            cursor: nwse-resize;
+        }
+        
+        .selected-element {
+            outline: 2px dashed #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-sm py-3 px-6 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-palette text-blue-500 text-2xl"></i>
+            <h1 class="text-xl font-bold text-gray-800">Canvasly by Sun.dev</h1>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+            <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                <i class="fas fa-download mr-2"></i>Download
+            </button>
+            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                <i class="fas fa-share-alt mr-2"></i>Share
+            </button>
+            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </header>
+    
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Left Sidebar - Tools -->
+        <div class="w-16 bg-white shadow-sm flex flex-col items-center py-4 space-y-6">
+            <button class="tool-btn active" data-tool="select">
+                <i class="fas fa-mouse-pointer text-xl"></i>
+                <span class="text-xs mt-1">Select</span>
+            </button>
+            <button class="tool-btn" data-tool="text">
+                <i class="fas fa-font text-xl"></i>
+                <span class="text-xs mt-1">Text</span>
+            </button>
+            <button class="tool-btn" data-tool="image">
+                <i class="fas fa-image text-xl"></i>
+                <span class="text-xs mt-1">Image</span>
+            </button>
+            <button class="tool-btn" data-tool="shape">
+                <i class="fas fa-square text-xl"></i>
+                <span class="text-xs mt-1">Shape</span>
+            </button>
+            <button class="tool-btn" data-tool="draw">
+                <i class="fas fa-pencil-alt text-xl"></i>
+                <span class="text-xs mt-1">Draw</span>
+            </button>
+            <button class="tool-btn" data-tool="upload">
+                <i class="fas fa-upload text-xl"></i>
+                <span class="text-xs mt-1">Upload</span>
+            </button>
+        </div>
+        
+        <!-- Main Canvas Area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <div class="bg-white border-b px-4 py-2 flex items-center justify-between">
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 bg-gray-100 rounded-md text-sm">
+                        <i class="fas fa-plus mr-1"></i>New
+                    </button>
+                    <button class="px-3 py-1 bg-gray-100 rounded-md text-sm">
+                        <i class="fas fa-save mr-1"></i>Save
+                    </button>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500">Zoom:</span>
+                        <select class="text-sm border rounded px-2 py-1">
+                            <option>100%</option>
+                            <option>75%</option>
+                            <option>50%</option>
+                            <option>Fit</option>
+                        </select>
+                    </div>
+                    <button class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex-1 overflow-auto p-8 flex items-center justify-center">
+                <div class="canvas-container bg-white shadow-lg relative" id="canvas" style="width: 800px; height: 600px;">
+                    <!-- Canvas elements will be added here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Sidebar - Elements and Properties -->
+        <div class="w-64 bg-white shadow-sm flex flex-col overflow-hidden">
+            <div class="border-b p-4">
+                <h2 class="font-semibold text-gray-700">Elements</h2>
+            </div>
+            
+            <div class="overflow-y-auto flex-1 p-4 space-y-4">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 mb-2">Text</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="element-item bg-gray-100 rounded-md p-2 text-center cursor-pointer" data-type="text" data-content="Heading">
+                            <div class="text-lg font-bold mb-1">Heading</div>
+                            <span class="text-xs text-gray-500">Click to add</span>
+                        </div>
+                        <div class="element-item bg-gray-100 rounded-md p-2 text-center cursor-pointer" data-type="text" data-content="Subheading">
+                            <div class="text-md font-semibold mb-1">Subheading</div>
+                            <span class="text-xs text-gray-500">Click to add</span>
+                        </div>
+                        <div class="element-item bg-gray-100 rounded-md p-2 text-center cursor-pointer" data-type="text" data-content="Body Text">
+                            <div class="text-sm mb-1">Body Text</div>
+                            <span class="text-xs text-gray-500">Click to add</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 mb-2">Shapes</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="element-item bg-gray-100 rounded-md p-3 cursor-pointer flex items-center justify-center" data-type="shape" data-shape="rectangle">
+                            <div class="w-8 h-8 bg-blue-500"></div>
+                        </div>
+                        <div class="element-item bg-gray-100 rounded-md p-3 cursor-pointer flex items-center justify-center" data-type="shape" data-shape="circle">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full"></div>
+                        </div>
+                        <div class="element-item bg-gray-100 rounded-md p-3 cursor-pointer flex items-center justify-center" data-type="shape" data-shape="triangle">
+                            <div class="w-8 h-8 bg-blue-500" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 mb-2">Images</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="element-item bg-gray-100 rounded-md overflow-hidden cursor-pointer" data-type="image" data-src="https://via.placeholder.com/150">
+                            <img src="https://via.placeholder.com/150" alt="Placeholder" class="w-full h-auto">
+                        </div>
+                        <div class="element-item bg-gray-100 rounded-md overflow-hidden cursor-pointer" data-type="image" data-src="https://via.placeholder.com/150/0000FF/FFFFFF">
+                            <img src="https://via.placeholder.com/150/0000FF/FFFFFF" alt="Placeholder" class="w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t p-4">
+                <h2 class="font-semibold text-gray-700 mb-3">Properties</h2>
+                <div id="properties-panel">
+                    <div class="text-center text-gray-500 text-sm py-4">
+                        Select an element to edit properties
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('canvas');
+            let selectedElement = null;
+            let currentTool = 'select';
+            let isDragging = false;
+            let startX, startY;
+            let offsetX, offsetY;
+            
+            // Tool buttons
+            const toolButtons = document.querySelectorAll('.tool-btn');
+            toolButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    toolButtons.forEach(b => b.classList.remove('active', 'text-blue-500'));
+                    this.classList.add('active', 'text-blue-500');
+                    currentTool = this.dataset.tool;
+                });
+            });
+            
+            // Element items
+            const elementItems = document.querySelectorAll('.element-item');
+            elementItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    
+                    if (type === 'text') {
+                        addTextElement(this.dataset.content);
+                    } else if (type === 'shape') {
+                        addShapeElement(this.dataset.shape);
+                    } else if (type === 'image') {
+                        addImageElement(this.dataset.src);
+                    }
+                });
+            });
+            
+            // Canvas click handler
+            canvas.addEventListener('mousedown', function(e) {
+                if (e.target === canvas) {
+                    // Deselect all elements
+                    document.querySelectorAll('.canvas-element').forEach(el => {
+                        el.classList.remove('selected-element');
+                    });
+                    selectedElement = null;
+                    updatePropertiesPanel();
+                    return;
+                }
+                
+                if (e.target.classList.contains('resize-handle')) {
+                    return;
+                }
+                
+                if (e.target.classList.contains('canvas-element') || e.target.closest('.canvas-element')) {
+                    const element = e.target.classList.contains('canvas-element') ? e.target : e.target.closest('.canvas-element');
+                    
+                    // Deselect all elements
+                    document.querySelectorAll('.canvas-element').forEach(el => {
+                        el.classList.remove('selected-element');
+                    });
+                    
+                    // Select clicked element
+                    element.classList.add('selected-element');
+                    selectedElement = element;
+                    updatePropertiesPanel();
+                    
+                    // Prepare for dragging
+                    isDragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    
+                    const rect = element.getBoundingClientRect();
+                    offsetX = startX - rect.left;
+                    offsetY = startY - rect.top;
+                    
+                    e.preventDefault();
+                }
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging || !selectedElement) return;
+                
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                
+                selectedElement.style.left = x + 'px';
+                selectedElement.style.top = y + 'px';
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            function addTextElement(content) {
+                const element = document.createElement('div');
+                element.className = 'canvas-element absolute p-2 bg-white cursor-move';
+                element.style.left = '100px';
+                element.style.top = '100px';
+                element.style.width = '200px';
+                element.innerHTML = `
+                    <div class="text-content">${content}</div>
+                    <div class="resize-handle resize-handle-nw"></div>
+                    <div class="resize-handle resize-handle-ne"></div>
+                    <div class="resize-handle resize-handle-sw"></div>
+                    <div class="resize-handle resize-handle-se"></div>
+                `;
+                
+                canvas.appendChild(element);
+                
+                // Select the new element
+                document.querySelectorAll('.canvas-element').forEach(el => {
+                    el.classList.remove('selected-element');
+                });
+                element.classList.add('selected-element');
+                selectedElement = element;
+                updatePropertiesPanel();
+            }
+            
+            function addShapeElement(shape) {
+                const element = document.createElement('div');
+                element.className = 'canvas-element absolute cursor-move';
+                element.style.left = '100px';
+                element.style.top = '100px';
+                element.style.width = '100px';
+                element.style.height = '100px';
+                element.style.backgroundColor = '#3b82f6';
+                
+                if (shape === 'circle') {
+                    element.style.borderRadius = '50%';
+                } else if (shape === 'triangle') {
+                    element.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+                }
+                
+                element.innerHTML = `
+                    <div class="resize-handle resize-handle-nw"></div>
+                    <div class="resize-handle resize-handle-ne"></div>
+                    <div class="resize-handle resize-handle-sw"></div>
+                    <div class="resize-handle resize-handle-se"></div>
+                `;
+                
+                canvas.appendChild(element);
+                
+                // Select the new element
+                document.querySelectorAll('.canvas-element').forEach(el => {
+                    el.classList.remove('selected-element');
+                });
+                element.classList.add('selected-element');
+                selectedElement = element;
+                updatePropertiesPanel();
+            }
+            
+            function addImageElement(src) {
+                const element = document.createElement('div');
+                element.className = 'canvas-element absolute cursor-move overflow-hidden';
+                element.style.left = '100px';
+                element.style.top = '100px';
+                element.style.width = '150px';
+                element.style.height = '150px';
+                
+                element.innerHTML = `
+                    <img src="${src}" alt="User image" class="w-full h-full object-cover">
+                    <div class="resize-handle resize-handle-nw"></div>
+                    <div class="resize-handle resize-handle-ne"></div>
+                    <div class="resize-handle resize-handle-sw"></div>
+                    <div class="resize-handle resize-handle-se"></div>
+                `;
+                
+                canvas.appendChild(element);
+                
+                // Select the new element
+                document.querySelectorAll('.canvas-element').forEach(el => {
+                    el.classList.remove('selected-element');
+                });
+                element.classList.add('selected-element');
+                selectedElement = element;
+                updatePropertiesPanel();
+            }
+            
+            function updatePropertiesPanel() {
+                const panel = document.getElementById('properties-panel');
+                
+                if (!selectedElement) {
+                    panel.innerHTML = `
+                        <div class="text-center text-gray-500 text-sm py-4">
+                            Select an element to edit properties
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Check what kind of element we have
+                if (selectedElement.querySelector('.text-content')) {
+                    // Text element
+                    const text = selectedElement.querySelector('.text-content').textContent;
+                    panel.innerHTML = `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Text</label>
+                                <input type="text" class="w-full border rounded px-2 py-1 text-sm" value="${text}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                <select class="w-full border rounded px-2 py-1 text-sm">
+                                    <option>12px</option>
+                                    <option>14px</option>
+                                    <option selected>16px</option>
+                                    <option>18px</option>
+                                    <option>24px</option>
+                                    <option>32px</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                                <div class="flex space-x-2">
+                                    <div class="w-6 h-6 rounded-full bg-black cursor-pointer border-2 border-gray-300"></div>
+                                    <div class="w-6 h-6 rounded-full bg-red-500 cursor-pointer"></div>
+                                    <div class="w-6 h-6 rounded-full bg-blue-500 cursor-pointer"></div>
+                                    <div class="w-6 h-6 rounded-full bg-green-500 cursor-pointer"></div>
+                                    <div class="w-6 h-6 rounded-full bg-yellow-500 cursor-pointer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (selectedElement.style.backgroundColor) {
+                    // Shape element
+                    const color = selectedElement.style.backgroundColor;
+                    panel.innerHTML = `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                                <div class="flex space-x-2">
+                                    <div class="w-6 h-6 rounded-full bg-red-500 cursor-pointer ${color === 'rgb(239, 68, 68)' ? 'border-2 border-gray-300' : ''}"></div>
+                                    <div class="w-6 h-6 rounded-full bg-blue-500 cursor-pointer ${color === 'rgb(59, 130, 246)' ? 'border-2 border-gray-300' : ''}"></div>
+                                    <div class="w-6 h-6 rounded-full bg-green-500 cursor-pointer ${color === 'rgb(34, 197, 94)' ? 'border-2 border-gray-300' : ''}"></div>
+                                    <div class="w-6 h-6 rounded-full bg-yellow-500 cursor-pointer ${color === 'rgb(234, 179, 8)' ? 'border-2 border-gray-300' : ''}"></div>
+                                    <div class="w-6 h-6 rounded-full bg-purple-500 cursor-pointer ${color === 'rgb(168, 85, 247)' ? 'border-2 border-gray-300' : ''}"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Opacity</label>
+                                <input type="range" min="0" max="100" value="100" class="w-full">
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add color picker event listeners
+                    panel.querySelectorAll('.w-6.h-6').forEach(colorBox => {
+                        colorBox.addEventListener('click', function() {
+                            const bgColor = window.getComputedStyle(this).backgroundColor;
+                            selectedElement.style.backgroundColor = bgColor;
+                            updatePropertiesPanel();
+                        });
+                    });
+                } else if (selectedElement.querySelector('img')) {
+                    // Image element
+                    panel.innerHTML = `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Filters</label>
+                                <select class="w-full border rounded px-2 py-1 text-sm">
+                                    <option>None</option>
+                                    <option>Black & White</option>
+                                    <option>Sepia</option>
+                                    <option>Blur</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Opacity</label>
+                                <input type="range" min="0" max="100" value="100" class="w-full">
+                            </div>
+                            <div>
+                                <button class="w-full bg-red-100 text-red-600 py-1 rounded text-sm">
+                                    <i class="fas fa-trash mr-1"></i> Remove Image
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Initialize with a sample text element
+            addTextElement("Welcome to Canvasly!");
+        });
+    </script>
+</body>
+</html>
